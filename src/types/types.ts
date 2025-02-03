@@ -1,9 +1,3 @@
-// export interface IAppointment {
-//   patientDetails: IPatient;
-//   appointmentId: number;
-//   status: Status;
-// }
-
 export interface IAppointment {
   name: string;
   contact: number | string;
@@ -13,6 +7,7 @@ export interface IAppointment {
   symptoms: string;
   appointmentId: number;
   status: Status;
+  note: string;
 }
 
 export enum Status {

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { IAppointment, Status } from "../../types/types";
+import dayjs from "dayjs";
 
 const ManageAppointments = () => {
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
@@ -11,8 +12,11 @@ const ManageAppointments = () => {
   useEffect(() => {
     const data = localStorage.getItem("appointment-details");
     if (data) {
-      const parsedData = JSON.parse(data);
+      let parsedData = JSON.parse(data);
       if (Array.isArray(parsedData)) {
+        parsedData = [...parsedData].sort(
+          (a, b) => dayjs(a.dateTime).valueOf() - dayjs(b.dateTime).valueOf()
+        );
         setAppointments(parsedData);
         setFilteredArray(parsedData);
       }
@@ -58,10 +62,21 @@ const ManageAppointments = () => {
     } else {
       updatedArray[index].status = Status.COMPLETED;
     }
-    console.log(updatedArray);
-
     setFilteredArray(updatedArray);
-    console.log(filteredArray);
+    localStorage.setItem("appointment-details", JSON.stringify(updatedArray));
+    setAppointments(updatedArray);
+  };
+
+  const handleNoteChange = (
+    index: number,
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const value = e.target.value;
+    const updatedArray = [...filteredArray];
+    updatedArray[index].note = value;
+    setFilteredArray(updatedArray);
+    localStorage.setItem("appointment-details", JSON.stringify(updatedArray));
+    setAppointments(updatedArray);
   };
 
   return (
@@ -89,9 +104,12 @@ const ManageAppointments = () => {
             <th>Name</th>
             <th>Status</th>
             <th>Symptoms</th>
-            <th>Lab Report</th>
+            <th>Notes</th>
           </tr>
         </thead>
+        {/* parsedData = [...parsedData].sort(
+          (a, b) => dayjs(a.dateTime).valueOf() - dayjs(b.dateTime).valueOf()
+        ); */}
         <tbody>
           {filteredArray.map((appointment, index) => (
             <tr key={index}>
@@ -106,17 +124,17 @@ const ManageAppointments = () => {
                   value={appointment.status}
                   onChange={(e) => handleStatusChange(index, e)}
                 >
-                  <option value="pending">Pending</option>
-                  <option value="confirmed">Confirmed</option>
-                  <option value="completed">Completed</option>
+                  <option value={Status.PENDING}>Pending</option>
+                  <option value={Status.CONFIRMED}>Confirmed</option>
+                  <option value={Status.COMPLETED}>Completed</option>
                 </select>
               </td>
               <td>{appointment.symptoms}</td>
               <td>
                 <textarea
-                  // value={appointment.labReport || ""}
-                  // onChange={(e) => handleLabReportChange(index, e)}
-                  placeholder="Enter Lab Report"
+                  value={appointment.note}
+                  onChange={(e) => handleNoteChange(index, e)}
+                  placeholder="Enter Note"
                 />
               </td>
             </tr>

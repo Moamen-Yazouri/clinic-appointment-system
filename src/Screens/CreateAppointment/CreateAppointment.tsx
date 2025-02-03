@@ -17,6 +17,7 @@ const CreateAppointment = () => {
     symptoms: "",
     appointmentId: appointmentsNumber.length + 1,
     status: Status.PENDING,
+    note: "",
   });
   const [submitted, setSubmitted] = useState(false);
 
