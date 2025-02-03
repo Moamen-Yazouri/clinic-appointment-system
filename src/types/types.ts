@@ -5,7 +5,7 @@ export interface IAppointment {
   status: Status;
 }
 
-const enum Status {
+export const enum Status {
   PENDING = 0,
   CONFIRMED = 1,
   COMPLETED = 2,
