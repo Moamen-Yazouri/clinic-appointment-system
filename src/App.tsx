@@ -4,15 +4,12 @@ import Dashboard from "./Screens/Dashboard/Dashboard";
 import { IAppointment, Status } from "./types/types";
 
 function App() {
-  const apps: IAppointment[] = JSON.parse(localStorage.getItem("appointment-details") || "[]");
-  console.log(apps[0].status.toString());
-console.log();
-
+  // const apps: IAppointment[] = JSON.parse(localStorage.getItem("appointment-details") || "[]");
   
   return (
     <>
       <h1>Clinic Appointment System</h1>
-      <Dashboard appointments={apps}/>
+      {/* <Dashboard appointments={apps}/> */}
       {/* <CreateAppointment/> */}
     </>
   );
