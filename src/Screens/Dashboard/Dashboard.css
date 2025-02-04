@@ -1,0 +1,17 @@
+.statistics {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    border: 1px solid #777;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    height: 80px;
+}
+.statistics span {
+    display: block;
+    color: #4caf50;
+    font-size: 18px;
+    font-weight: 800;
+    margin-top: 10px;
+}
