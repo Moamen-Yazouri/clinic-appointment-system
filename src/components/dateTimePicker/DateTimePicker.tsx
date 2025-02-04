@@ -1,6 +1,5 @@
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "./CreateAppointment.css";
 
 interface DateTimePickerProps {
   selectedDate: Date | null;
