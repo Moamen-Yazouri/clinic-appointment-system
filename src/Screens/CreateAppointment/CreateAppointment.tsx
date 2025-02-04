@@ -2,24 +2,22 @@ import { useState } from "react";
 import "./CreateAppointment.css";
 import DateTimePicker from "./DateTimePicker";
 import dayjs from "dayjs";
-
-interface IPatient {
-  name: string;
-  contact: number | string;
-  age: number | string;
-  gender: string;
-  dateTime: Date | null;
-  symptoms: string;
-}
+import { IAppointment, Status } from "../../types/types";
 
 const CreateAppointment = () => {
-  const [patientData, setPatientData] = useState<IPatient>({
+  const appointmentsNumber = JSON.parse(
+    localStorage.getItem("appointment-details") || "[]"
+  );
+  const [patientData, setPatientData] = useState<IAppointment>({
     name: "",
     contact: "",
     age: "",
     gender: "",
     dateTime: null,
     symptoms: "",
+    appointmentId: appointmentsNumber.length + 1,
+    status: Status.PENDING,
+    note: "",
   });
   const [submitted, setSubmitted] = useState(false);
 
@@ -48,7 +46,11 @@ const CreateAppointment = () => {
       alert("Please fill in all fields.");
       return;
     }
-    localStorage.setItem("appointment-details", JSON.stringify(patientData));
+    const data = JSON.parse(
+      localStorage.getItem("appointment-details") || "[]"
+    );
+    data.push(patientData);
+    localStorage.setItem("appointment-details", JSON.stringify(data));
     setSubmitted(true);
   };
 
