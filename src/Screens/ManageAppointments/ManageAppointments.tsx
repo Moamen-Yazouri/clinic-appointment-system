@@ -22,31 +22,37 @@ const ManageAppointments = () => {
       }
     } else {
       setAppointments([]);
+      setFilteredArray([]);
     }
   }, []);
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setNameFilter(value);
+  useEffect(() => {
     setFilteredArray(
-      appointments.filter((appointment) =>
-        appointment.name.toLowerCase().includes(value.toLowerCase())
-      )
-    );
-  };
+      appointments.filter((appointment) => {
+        const matchesName = nameFilter
+          ? appointment.name.toLowerCase().includes(nameFilter.toLowerCase())
+          : true;
 
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value;
-    setSelectedFilter(value);
-    if (value !== "all") {
-      setFilteredArray(
-        appointments.filter(
-          (appointment) =>
-            appointment.status.toLowerCase() === value.toLowerCase()
-        )
-      );
-    } else {
-      setFilteredArray(appointments);
+        const matchesStatus =
+          selectedFilter !== "all"
+            ? appointment.status.toLowerCase() === selectedFilter.toLowerCase()
+            : true;
+
+        return matchesName && matchesStatus;
+      })
+    );
+  }, [nameFilter, selectedFilter, appointments]);
+
+  const handleChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    if (name === "nameInput") {
+      setNameFilter(value);
+    } else if (name === "selectInput") {
+      setSelectedFilter(value);
     }
   };
 
@@ -79,9 +85,9 @@ const ManageAppointments = () => {
     setAppointments(updatedArray);
   };
 
-  return (
+  return filteredArray.length > 0 ? (
     <div>
-      <select value={selectedFilter} onChange={handleSelectChange}>
+      <select name="selectInput" value={selectedFilter} onChange={handleChange}>
         <option value="all">All</option>
         <option value="pending">pending</option>
         <option value="confirmed">Confirmed</option>
@@ -89,9 +95,10 @@ const ManageAppointments = () => {
       </select>
       <input
         type="text"
+        name="nameInput"
         placeholder="Enter patient name"
         value={nameFilter}
-        onChange={handleNameChange}
+        onChange={handleChange}
       />
       <table>
         <thead>
@@ -107,9 +114,6 @@ const ManageAppointments = () => {
             <th>Notes</th>
           </tr>
         </thead>
-        {/* parsedData = [...parsedData].sort(
-          (a, b) => dayjs(a.dateTime).valueOf() - dayjs(b.dateTime).valueOf()
-        ); */}
         <tbody>
           {filteredArray.map((appointment, index) => (
             <tr key={index}>
@@ -142,6 +146,8 @@ const ManageAppointments = () => {
         </tbody>
       </table>
     </div>
+  ) : (
+    <h2 style={{ color: "red" }}>There is no data to show</h2>
   );
 };
 

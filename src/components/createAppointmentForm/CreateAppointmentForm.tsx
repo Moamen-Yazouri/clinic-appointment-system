@@ -40,8 +40,6 @@ const CreateAppointmentForm = (props: IProps) => {
       const checkedArray = Array.isArray(data)
         ? [...data, props.patientData]
         : [props.patientData];
-      console.log(props.patientData);
-
       localStorage.setItem("appointment-details", JSON.stringify(checkedArray));
       props.setSubmitted(true);
     }

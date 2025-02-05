@@ -1,8 +1,8 @@
 import "./App.css";
-import CreateAppointment from "./Screens/CreateAppointment/CreateAppointment";
+// import CreateAppointment from "./Screens/CreateAppointment/CreateAppointment";
+import ManageAppointments from "./Screens/ManageAppointments/ManageAppointments";
 // import Dashboard from "./Screens/Dashboard/Dashboard";
 // import { IAppointment, Status } from "./types/types";
-// import ManageAppointments from "./Screens/ManageAppointments/ManageAppointments";
 function App() {
   //   const apps: IAppointment[] = JSON.parse(
   //     localStorage.getItem("appointment-details") || "[]"
@@ -10,10 +10,10 @@ function App() {
 
   return (
     <>
-      {/* <h1>Clinic Appointment System</h1> */}
-      <CreateAppointment />
+      <h1>Clinic Appointment System</h1>
+      {/* <CreateAppointment /> */}
+      <ManageAppointments />
       {/* <Dashboard appointments={apps} /> */}
-      {/* <ManageAppointments /> */}
     </>
   );
 }
