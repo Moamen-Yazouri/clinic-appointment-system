@@ -23,7 +23,12 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
         showTimeSelect
         dateFormat="dd/MM/yyyy, hh:mm aa"
         filterTime={filterTime}
-        minTime={new Date(new Date().setHours(9, 0, 0, 0))}
+        minDate={new Date()} // Prevent selecting past dates
+        minTime={
+          selectedDate && selectedDate.toDateString() === new Date().toDateString()
+            ? new Date()
+            : new Date(new Date().setHours(9, 0, 0, 0))
+        }
         maxTime={new Date(new Date().setHours(17, 0, 0, 0))}
         placeholderText="Select Date & Time"
         required

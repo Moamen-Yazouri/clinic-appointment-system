@@ -2,7 +2,7 @@ import "./CreateAppointment.css";
 import { useState } from "react";
 import { IAppointment, Status } from "../../types/types";
 import dayjs from "dayjs";
-import DateTimePicker from "./DateTimePicker";
+import DateTimePicker from "../../components/DateTimePicker/DateTimePicker";
 
 const CreateAppointment = () => {
   const appointmentsNumber = JSON.parse(
