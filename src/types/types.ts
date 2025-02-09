@@ -15,3 +15,14 @@ export enum Status {
   CONFIRMED = "Confirmed",
   COMPLETED = "Completed",
 }
+
+export interface ILoginData {
+  userName: string;
+  password: string;
+  role: Role;
+}
+
+export enum Role {
+  PATIENT,
+  DOCTOR,
+}
