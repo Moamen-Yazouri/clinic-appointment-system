@@ -21,13 +21,13 @@ const CreateAppointmentForm: React.FC<IAppointmentFormProps> = ({
   return (
     <form onSubmit={handleSubmit}>
       <input
+        pattern="[A-Za-z ]{3,30}"
         type="text"
         name="name"
-        min={3}
-        max={25}
         placeholder="Patient Name"
         value={patientData.name}
         onChange={handleChange}
+        title="The name must be between 3 and 30 characters long and contain only English letters and spaces."
         required
       />
       <input
