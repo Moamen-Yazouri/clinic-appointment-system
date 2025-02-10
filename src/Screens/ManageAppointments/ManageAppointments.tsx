@@ -6,7 +6,7 @@ import Filters from "../../components/filters/Filters";
 
 const ManageAppointments = () => {
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
-  const [selectedFilter, setSelectedFilter] = useState("all");
+  const [selectedFilter, setSelectedFilter] = useState("");
   const [filteredArray, setFilteredArray] =
     useState<IAppointment[]>(appointments);
   const [nameFilter, setNameFilter] = useState("");
@@ -35,10 +35,9 @@ const ManageAppointments = () => {
           ? appointment.name.toLowerCase().includes(nameFilter.toLowerCase())
           : true;
 
-        const matchesStatus =
-          selectedFilter !== "all"
-            ? appointment.status.toLowerCase() === selectedFilter.toLowerCase()
-            : true;
+        const matchesStatus = selectedFilter
+          ? appointment.status.toLowerCase() === selectedFilter.toLowerCase()
+          : true;
 
         return matchesName && matchesStatus;
       })
