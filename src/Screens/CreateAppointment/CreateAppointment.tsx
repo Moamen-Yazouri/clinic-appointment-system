@@ -3,6 +3,7 @@ import { useState } from "react";
 import { IAppointment, Status } from "../../types/types";
 import ShowAppointment from "../../components/showAppointment/showAppointment";
 import CreateAppointmentForm from "../../components/CreateAppointmentForm/CreateAppointmentForm";
+import dayjs from "dayjs";
 
 const CreateAppointment = () => {
   const appointmentsNumber = JSON.parse(
@@ -37,6 +38,11 @@ const CreateAppointment = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    const storedAppointments: IAppointment[] = JSON.parse(
+      localStorage.getItem("appointment-details") || "[]"
+    );
+  
     if (
       patientData.name &&
       patientData.contact &&
@@ -45,16 +51,28 @@ const CreateAppointment = () => {
       patientData.dateTime &&
       patientData.symptoms
     ) {
-      const data: IAppointment[] = JSON.parse(
-        localStorage.getItem("appointment-details") || "[]"
+      const isDateTaken = storedAppointments.some(
+        (appointment) =>
+          dayjs(appointment.dateTime).format("YYYY-MM-DD HH:mm") === 
+          dayjs(patientData.dateTime).format("YYYY-MM-DD HH:mm")
       );
-      const checkedArray = Array.isArray(data)
-        ? [...data, patientData]
-        : [patientData];
-      localStorage.setItem("appointment-details", JSON.stringify(checkedArray));
+  
+      if (isDateTaken) {
+        alert("This appointment is booked in advance.");
+        return;
+      }
+  
+      const updatedAppointments = [
+        ...storedAppointments, 
+        { ...patientData, dateTime: dayjs(patientData.dateTime).toISOString() }       
+      ];
+      
+      localStorage.setItem("appointment-details", JSON.stringify(updatedAppointments));
+      
       setSubmitted(true);
     }
   };
+  
   return (
     <div className="container">
       {submitted ? (
