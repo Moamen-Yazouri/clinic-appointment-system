@@ -1,7 +1,7 @@
 import "./CreateAppointment.css";
 import { useState } from "react";
 import { IAppointment, Status } from "../../types/types";
-import dayjs from "dayjs";
+import ShowAppointment from "../../components/showAppointment/showAppointment";
 import CreateAppointmentForm from "../../components/CreateAppointmentForm/CreateAppointmentForm";
 
 const CreateAppointment = () => {
@@ -58,31 +58,7 @@ const CreateAppointment = () => {
   return (
     <div className="container">
       {submitted ? (
-        <div className="success-message">
-          <h2>Appointment successfully created!</h2>
-          <h3>Submitted Appointment Details:</h3>
-          <p>
-            <strong>Patient Name:</strong> {patientData.name}
-          </p>
-          <p>
-            <strong>Contact:</strong> {patientData.contact}
-          </p>
-          <p>
-            <strong>Age:</strong> {patientData.age}
-          </p>
-          <p>
-            <strong>Gender:</strong> {patientData.gender}
-          </p>
-          <p>
-            <strong>Appointment Date/Time:</strong>
-            {patientData.dateTime
-              ? dayjs(patientData.dateTime).format("MM/DD/YYYY, hh:mm A")
-              : ""}
-          </p>
-          <p>
-            <strong>Symptoms:</strong> {patientData.symptoms}
-          </p>
-        </div>
+        <div><ShowAppointment patientData={patientData}/></div>
       ) : (
         <>
           <h2>Create Appointment</h2>
