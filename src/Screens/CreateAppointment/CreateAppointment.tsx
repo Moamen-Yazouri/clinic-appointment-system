@@ -1,8 +1,9 @@
 import "./CreateAppointment.css";
 import { useState } from "react";
 import { IAppointment, Status } from "../../types/types";
-import dayjs from "dayjs";
+import ShowAppointment from "../../components/showAppointment/showAppointment";
 import CreateAppointmentForm from "../../components/CreateAppointmentForm/CreateAppointmentForm";
+import dayjs from "dayjs";
 
 const CreateAppointment = () => {
   const appointmentsNumber = JSON.parse(
@@ -37,6 +38,11 @@ const CreateAppointment = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    const storedAppointments: IAppointment[] = JSON.parse(
+      localStorage.getItem("appointment-details") || "[]"
+    );
+  
     if (
       patientData.name &&
       patientData.contact &&
@@ -45,44 +51,32 @@ const CreateAppointment = () => {
       patientData.dateTime &&
       patientData.symptoms
     ) {
-      const data: IAppointment[] = JSON.parse(
-        localStorage.getItem("appointment-details") || "[]"
+      const isDateTaken = storedAppointments.some(
+        (appointment) =>
+          dayjs(appointment.dateTime).format("YYYY-MM-DD HH:mm") === 
+          dayjs(patientData.dateTime).format("YYYY-MM-DD HH:mm")
       );
-      const checkedArray = Array.isArray(data)
-        ? [...data, patientData]
-        : [patientData];
-      localStorage.setItem("appointment-details", JSON.stringify(checkedArray));
+  
+      if (isDateTaken) {
+        alert("This appointment is booked in advance.");
+        return;
+      }
+  
+      const updatedAppointments = [
+        ...storedAppointments, 
+        { ...patientData, dateTime: dayjs(patientData.dateTime).toISOString() }       
+      ];
+      
+      localStorage.setItem("appointment-details", JSON.stringify(updatedAppointments));
+      
       setSubmitted(true);
     }
   };
+  
   return (
     <div className="container">
       {submitted ? (
-        <div className="success-message">
-          <h2>Appointment successfully created!</h2>
-          <h3>Submitted Appointment Details:</h3>
-          <p>
-            <strong>Patient Name:</strong> {patientData.name}
-          </p>
-          <p>
-            <strong>Contact:</strong> {patientData.contact}
-          </p>
-          <p>
-            <strong>Age:</strong> {patientData.age}
-          </p>
-          <p>
-            <strong>Gender:</strong> {patientData.gender}
-          </p>
-          <p>
-            <strong>Appointment Date/Time:</strong>
-            {patientData.dateTime
-              ? dayjs(patientData.dateTime).format("MM/DD/YYYY, hh:mm A")
-              : ""}
-          </p>
-          <p>
-            <strong>Symptoms:</strong> {patientData.symptoms}
-          </p>
-        </div>
+        <div><ShowAppointment patientData={patientData}/></div>
       ) : (
         <>
           <h2>Create Appointment</h2>
