@@ -1,4 +1,13 @@
+import dayjs from "dayjs";
 import { IAppointment, Status } from "../../types/types";
+
+import Table from "@mui/material/Table";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import TableCell from "@mui/material/TableCell";
+import TableBody from "@mui/material/TableBody";
 
 interface IProps {
   filteredArray: IAppointment[];
@@ -34,52 +43,111 @@ const ManageAppointmentsTable = (props: IProps) => {
     localStorage.setItem("appointment-details", JSON.stringify(updatedArray));
     props.setAppointments(updatedArray);
   };
+
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Appointment ID</th>
-          <th>Age</th>
-          <th>Contact</th>
-          <th>Date & Time</th>
-          <th>Gender</th>
-          <th>Name</th>
-          <th>Status</th>
-          <th>Symptoms</th>
-          <th>Notes</th>
-        </tr>
-      </thead>
-      <tbody>
-        {props.filteredArray.map((appointment, index) => (
-          <tr key={index}>
-            <td>{appointment.appointmentId}</td>
-            <td>{appointment.age}</td>
-            <td>{appointment.contact}</td>
-            <td>{appointment.dateTime?.toLocaleString()}</td>
-            <td>{appointment.gender}</td>
-            <td>{appointment.name}</td>
-            <td>
-              <select
-                value={appointment.status}
-                onChange={(e) => handleStatusChange(index, e)}
+    <>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="a dense tables">
+          <TableHead>
+            <TableRow>
+              <TableCell align="center">Appointment ID</TableCell>
+              <TableCell align="center">Patient Name</TableCell>
+              <TableCell align="center">Patient Age</TableCell>
+              <TableCell align="center">Patient Contact</TableCell>
+              <TableCell align="center">Patient Gender</TableCell>
+              <TableCell align="center">Appointment Status</TableCell>
+              <TableCell align="center">Appointment Date & Time</TableCell>
+              <TableCell align="center">Symptoms</TableCell>
+              <TableCell align="center">Notes</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {props.filteredArray.map((appointment, index) => (
+              <TableRow
+                key={index}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <option value={Status.PENDING}>Pending</option>
-                <option value={Status.CONFIRMED}>Confirmed</option>
-                <option value={Status.COMPLETED}>Completed</option>
-              </select>
-            </td>
-            <td>{appointment.symptoms}</td>
-            <td>
-              <textarea
-                value={appointment.note}
-                onChange={(e) => handleNoteChange(index, e)}
-                placeholder="Enter Note"
-              />
-            </td>
+                <TableCell align="center">
+                  {appointment.appointmentId}
+                </TableCell>
+                <TableCell align="center">{appointment.name}</TableCell>
+                <TableCell align="center">{appointment.age}</TableCell>
+                <TableCell align="center">{appointment.contact}</TableCell>
+                <TableCell align="center">{appointment.gender}</TableCell>
+                <TableCell align="center">
+                  <select
+                    value={appointment.status}
+                    onChange={(e) => handleStatusChange(index, e)}
+                  >
+                    <option value={Status.PENDING}>Pending</option>
+                    <option value={Status.CONFIRMED}>Confirmed</option>
+                    <option value={Status.COMPLETED}>Completed</option>
+                  </select>
+                </TableCell>
+                <TableCell align="center">
+                  {dayjs(appointment.dateTime).format("MM/DD/YYYY, hh:mm A")}
+                </TableCell>
+                <TableCell align="center">{appointment.symptoms}</TableCell>
+                <TableCell align="center">
+                  <textarea
+                    value={appointment.note}
+                    onChange={(e) => handleNoteChange(index, e)}
+                    placeholder="Enter Note"
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      {/* <table>
+        <thead>
+          <tr>
+            <th>Appointment ID</th>
+            <th>Age</th>
+            <th>Contact</th>
+            <th>Date & Time</th>
+            <th>Gender</th>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Symptoms</th>
+            <th>Notes</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {props.filteredArray.map((appointment, index) => (
+            <tr key={index}>
+              <td>{appointment.appointmentId}</td>
+              <td>{appointment.age}</td>
+              <td>{appointment.contact}</td>
+              <td>
+                {dayjs(appointment.dateTime).format("MM/DD/YYYY, hh:mm A")}
+              </td>
+              <td>{appointment.gender}</td>
+              <td>{appointment.name}</td>
+              <td>
+                <select
+                  value={appointment.status}
+                  onChange={(e) => handleStatusChange(index, e)}
+                >
+                  <option value={Status.PENDING}>Pending</option>
+                  <option value={Status.CONFIRMED}>Confirmed</option>
+                  <option value={Status.COMPLETED}>Completed</option>
+                </select>
+              </td>
+              <td>{appointment.symptoms}</td>
+              <td>
+                <textarea
+                  value={appointment.note}
+                  onChange={(e) => handleNoteChange(index, e)}
+                  placeholder="Enter Note"
+                />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table> */}
+    </>
   );
 };
 export default ManageAppointmentsTable;
