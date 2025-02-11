@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+
 interface IProps {
   selectedFilter: string;
   setSelectedFilter: React.Dispatch<React.SetStateAction<string>>;
@@ -6,18 +9,37 @@ interface IProps {
 }
 
 const Filters = (props: IProps) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const handleChange = (
     e:
       | React.ChangeEvent<HTMLInputElement>
       | React.ChangeEvent<HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
+    const newParams = new URLSearchParams(searchParams);
     if (name === "nameInput") {
-      props.setNameFilter(value);
+      if (value) {
+        newParams.set("name", value);
+      } else {
+        newParams.delete("name");
+      }
+      setSearchParams(newParams);
     } else if (name === "selectInput") {
-      props.setSelectedFilter(value);
+      if (value) {
+        newParams.set("status", value);
+      } else {
+        newParams.delete("status");
+      }
+      setSearchParams(newParams);
     }
   };
+
+  useEffect(() => {
+    props.setNameFilter(searchParams.get("name") || "");
+    props.setSelectedFilter(searchParams.get("status") || "");
+  }, [searchParams]);
+
   return (
     <>
       <select
@@ -25,7 +47,7 @@ const Filters = (props: IProps) => {
         value={props.selectedFilter}
         onChange={handleChange}
       >
-        <option value="all">All</option>
+        <option value="">All</option>
         <option value="pending">pending</option>
         <option value="confirmed">Confirmed</option>
         <option value="completed">Completed</option>

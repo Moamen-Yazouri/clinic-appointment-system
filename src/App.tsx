@@ -19,7 +19,8 @@ function App() {
       {/* <ManageAppointments /> */}
       {/* <Dashboard appointments={apps} /> */}
       <Routes>
-        <Route path="/" element={<CreateAppointment />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/create" element={<CreateAppointment />} />
         <Route path="/manage" element={<ManageAppointments />} />
         <Route path="/dashboard" element={<Dashboard appointments={apps} />} />
       </Routes>
