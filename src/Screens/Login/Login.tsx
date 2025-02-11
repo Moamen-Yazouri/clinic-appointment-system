@@ -3,22 +3,22 @@ import { ILoginData, Role } from "../../types/types";
 import "./Login.css";
 import { AuthContext } from "../../Providers/AuthContext";
 import validation from "../../utils/validation";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
   // This Data will help you for testing.
-  //   localStorage.setItem(
-  //     "login-data",
-  //     JSON.stringify([
-  //       { userName: "Moamen", password: "m123", role: "DOCTOR" },
-  //       { userName: "Mohammed", password: "mk123", role: "DOCTOR" },
-  //       { userName: "Qousy", password: "q123", role: "PATIENT" },
-  //       { userName: "Mohammed", password: "ms123", role: "PATIENT" },
-  //     ])
-  //   );
+  // localStorage.setItem("login-data", JSON.stringify([
+  //     {"userName":"Moamen","password":"m123","role":"DOCTOR"},
+  //     {"userName":"Mohammed","password":"mk123","role":"DOCTOR"},
+  //     {"userName":"Qousy","password":"q123","role":"PATIENT"},
+  //     {"userName":"Mohammed","password":"ms123","role":"PATIENT"}
+  // ]));
   const users: ILoginData[] = JSON.parse(
     localStorage.getItem("login-data") || "[]"
   );
   const { user, login, logout } = useContext(AuthContext);
   const [errors, setErrors] = useState<string[]>([]);
+  const navigate = useNavigate();
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const userName = e.currentTarget["username"].value;
@@ -27,9 +27,14 @@ const Login = () => {
     setErrors([]);
     if (existingErrors.length == 0) {
       const role = users.find((user) =>
-        user.userName === userName ? user : null
+        user.userName === userName ? user && user.password === password : null
       )!.role;
       login({ userName, password, role });
+      if (role.toString().toLowerCase() === "doctor") {
+        navigate("/manage");
+      } else {
+        navigate("/create");
+      }
     } else {
       setErrors(existingErrors);
     }
@@ -37,7 +42,7 @@ const Login = () => {
   if (!user) {
     return (
       <>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="form">
           <div className="username">
             <label htmlFor="username">Username: </label>
             <input type="text" placeholder="Username" id="username" />
