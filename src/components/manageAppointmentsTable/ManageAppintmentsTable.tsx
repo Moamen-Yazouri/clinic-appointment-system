@@ -100,53 +100,6 @@ const ManageAppointmentsTable = (props: IProps) => {
           </TableBody>
         </Table>
       </TableContainer>
-      {/* <table>
-        <thead>
-          <tr>
-            <th>Appointment ID</th>
-            <th>Age</th>
-            <th>Contact</th>
-            <th>Date & Time</th>
-            <th>Gender</th>
-            <th>Name</th>
-            <th>Status</th>
-            <th>Symptoms</th>
-            <th>Notes</th>
-          </tr>
-        </thead>
-        <tbody>
-          {props.filteredArray.map((appointment, index) => (
-            <tr key={index}>
-              <td>{appointment.appointmentId}</td>
-              <td>{appointment.age}</td>
-              <td>{appointment.contact}</td>
-              <td>
-                {dayjs(appointment.dateTime).format("MM/DD/YYYY, hh:mm A")}
-              </td>
-              <td>{appointment.gender}</td>
-              <td>{appointment.name}</td>
-              <td>
-                <select
-                  value={appointment.status}
-                  onChange={(e) => handleStatusChange(index, e)}
-                >
-                  <option value={Status.PENDING}>Pending</option>
-                  <option value={Status.CONFIRMED}>Confirmed</option>
-                  <option value={Status.COMPLETED}>Completed</option>
-                </select>
-              </td>
-              <td>{appointment.symptoms}</td>
-              <td>
-                <textarea
-                  value={appointment.note}
-                  onChange={(e) => handleNoteChange(index, e)}
-                  placeholder="Enter Note"
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table> */}
     </>
   );
 };
