@@ -8,6 +8,7 @@ import { IAppointment } from "./types/types";
 import Header from "./components/header/Header";
 import { useContext } from "react";
 import { AuthContext } from "./Providers/AuthContext";
+import Error404 from "./Screens/Error404/Error404";
 
 function App() {
   const apps: IAppointment[] = JSON.parse(
@@ -23,6 +24,7 @@ function App() {
         <Route path="/create" element={<CreateAppointment />} />
         <Route path="/manage" element={<ManageAppointments />} />
         <Route path="/dashboard" element={<Dashboard appointments={apps} />} />
+        <Route path="/*" element={<Error404 />}></Route>
       </Routes>
     </>
   );
