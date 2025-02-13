@@ -23,6 +23,6 @@ export interface ILoginData {
 }
 
 export enum Role {
-  PATIENT,
-  DOCTOR,
+  PATIENT = "Patient",
+  DOCTOR = "Doctor",
 }
