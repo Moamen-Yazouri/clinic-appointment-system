@@ -10,7 +10,6 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./Providers/AuthContext";
 import Error404 from "./Screens/Error404/Error404";
 import dayjs from "dayjs";
-import { ConfigProvider } from "antd";
 
 function App() {
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
@@ -33,35 +32,25 @@ function App() {
 
   return (
     <>
-      <ConfigProvider
-        theme={{
-          token: {
-            colorPrimary: "#2f80ed",
-            colorBgContainer: "#f2f2f2",
-            colorSuccess: "#27ae60",
-          },
-        }}
-      >
-        {user && <Header />}
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/create" element={<CreateAppointment />} />
-          <Route
-            path="/manage"
-            element={
-              <ManageAppointments
-                appointments={appointments}
-                setAppointments={setAppointments}
-              />
-            }
-          />
-          <Route
-            path="/dashboard"
-            element={<Dashboard appointments={appointments} />}
-          />
-          <Route path="/*" element={<Error404 />}></Route>
-        </Routes>
-      </ConfigProvider>
+      {user && <Header />}
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/create" element={<CreateAppointment />} />
+        <Route
+          path="/manage"
+          element={
+            <ManageAppointments
+              appointments={appointments}
+              setAppointments={setAppointments}
+            />
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={<Dashboard appointments={appointments} />}
+        />
+        <Route path="/*" element={<Error404 />}></Route>
+      </Routes>
     </>
   );
 }
