@@ -1,17 +1,47 @@
-.statistics {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    border: 1px solid #777;
-    padding: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    height: 80px;
+.ant-card {
+    height: 150px;
 }
-.statistics span {
-    display: block;
-    color: #4caf50;
-    font-size: 18px;
-    font-weight: 800;
-    margin-top: 10px;
+.ant-statistic-title {
+    color: white !important;
+    white-space: nowrap !important;
+    margin-bottom: 20px !important;
+    font-size: 16px !important;
+}
+.ant-statistic-content-value-int {
+    color: white !important;
+    margin-top: 10px !important;
+}
+.first-card {
+    background-color: #646cff !important;
+}
+.second-card {
+    background-color: #FFC107 !important;
+}
+.third-card {
+    background-color: #009688  !important;
+}
+.main-header {
+    position: relative;
+    margin-bottom: 50px !important;
+}
+.main-header::before {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    width: 200px;
+    height: 4px;
+    background-color: #646cff;
+    transform: translate(-50%, -50%);
+}
+.main-header::after {
+    content: '';
+    position: absolute;
+    bottom: -24px;
+    width: 25px;
+    height: 25px;
+    left: 50%;
+    transform: translate(-50%);
+    border-radius: 50%;
+    background-color: #646cff;
 }
