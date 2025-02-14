@@ -1,7 +1,7 @@
 import "./CreateAppointment.css";
 import { useState } from "react";
 import { IAppointment, Status } from "../../types/types";
-import ShowAppointment from "../../components/showAppointment/showAppointment";
+import ShowAppointment from "../../components/showAppointment/ShowAppointment";
 import CreateAppointmentForm from "../../components/CreateAppointmentForm/CreateAppointmentForm";
 import dayjs from "dayjs";
 

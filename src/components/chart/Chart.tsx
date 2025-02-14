@@ -12,7 +12,7 @@ const Chart = (props: IProps) => {
         setAppointmentsPerDay(groupeAppointments);
     }, [props.appointments])
     return (
-        <ResponsiveContainer width="100%" height={300} style={{marginTop:"80px"}}>
+        <ResponsiveContainer width="100%" height={300} style={{marginTop:"50px"}}>
             <BarChart data={appointmentsPerDay} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="6 6" />
                 <XAxis dataKey="date" interval={0}/>
