@@ -45,3 +45,8 @@
     border-radius: 50%;
     background-color: #646cff;
 }
+@media(max-width: 767px) {
+    .ant-statistic-title {
+        white-space: wrap !important;
+    }
+}
