@@ -1,0 +1,7 @@
+.completed-row {
+  background-color: #d4edda;
+  transition: background-color 0.3s ease;
+}
+.completed-row:hover {
+  background-color: #c3e6cb !important;
+}
