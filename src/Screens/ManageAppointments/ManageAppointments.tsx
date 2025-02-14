@@ -4,11 +4,16 @@ import dayjs from "dayjs";
 import ManageAppointmentsTable from "../../components/manageAppointmentsTable/ManageAppintmentsTable";
 import Filters from "../../components/filters/Filters";
 
-const ManageAppointments = () => {
-  const [appointments, setAppointments] = useState<IAppointment[]>([]);
+interface IProps {
+  appointments: IAppointment[];
+  setAppointments: React.Dispatch<React.SetStateAction<IAppointment[]>>;
+}
+
+const ManageAppointments = (props: IProps) => {
   const [selectedFilter, setSelectedFilter] = useState("");
-  const [filteredArray, setFilteredArray] =
-    useState<IAppointment[]>(appointments);
+  const [filteredArray, setFilteredArray] = useState<IAppointment[]>(
+    props.appointments
+  );
   const [nameFilter, setNameFilter] = useState("");
 
   useEffect(() => {
@@ -19,18 +24,18 @@ const ManageAppointments = () => {
         parsedData = [...parsedData].sort(
           (a, b) => dayjs(a.dateTime).valueOf() - dayjs(b.dateTime).valueOf()
         );
-        setAppointments(parsedData);
+        props.setAppointments(parsedData);
         setFilteredArray(parsedData);
       }
     } else {
-      setAppointments([]);
+      props.setAppointments([]);
       setFilteredArray([]);
     }
   }, []);
 
   useEffect(() => {
     setFilteredArray(
-      appointments.filter((appointment) => {
+      props.appointments.filter((appointment) => {
         const matchesName = nameFilter
           ? appointment.name.toLowerCase().includes(nameFilter.toLowerCase())
           : true;
@@ -42,9 +47,9 @@ const ManageAppointments = () => {
         return matchesName && matchesStatus;
       })
     );
-  }, [nameFilter, selectedFilter, appointments]);
+  }, [nameFilter, selectedFilter, props.appointments]);
 
-  return appointments.length > 0 ? (
+  return props.appointments.length > 0 ? (
     <div>
       <Filters
         selectedFilter={selectedFilter}
@@ -56,7 +61,7 @@ const ManageAppointments = () => {
         <ManageAppointmentsTable
           filteredArray={filteredArray}
           setFilteredArray={setFilteredArray}
-          setAppointments={setAppointments}
+          setAppointments={props.setAppointments}
         />
       ) : (
         <h2 style={{ color: "red" }}>
