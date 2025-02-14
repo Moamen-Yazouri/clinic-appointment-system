@@ -130,6 +130,8 @@ const ManageAppointmentsTable = (props: IProps) => {
       rowClassName={(record) =>
         record.status === "Completed" ? "completed-row" : ""
       }
+      scroll={{ x: "max-content" }}
+      className="responsive-table"
     />
   );
 };
