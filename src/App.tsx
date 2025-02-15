@@ -10,6 +10,8 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./Providers/AuthContext";
 import Error404 from "./Screens/Error404/Error404";
 import dayjs from "dayjs";
+import Unauthorized from "./Screens/unauthorized/Unauthorized";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 function App() {
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
@@ -35,20 +37,26 @@ function App() {
       {user && <Header />}
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/create" element={<CreateAppointment />} />
-        <Route
-          path="/manage"
-          element={
-            <ManageAppointments
-              appointments={appointments}
-              setAppointments={setAppointments}
-            />
-          }
-        />
-        <Route
-          path="/dashboard"
-          element={<Dashboard appointments={appointments} />}
-        />
+        <Route element={<ProtectedRoute allowedRoles="PATIENT" />}>
+          <Route path="/create" element={<CreateAppointment />} />
+        </Route>
+
+        <Route element={<ProtectedRoute allowedRoles="DOCTOR" />}>
+          <Route
+            path="/manage"
+            element={
+              <ManageAppointments
+                appointments={appointments}
+                setAppointments={setAppointments}
+              />
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={<Dashboard appointments={appointments} />}
+          />
+        </Route>
+        <Route path="/unauthorized" element={<Unauthorized />}></Route>
         <Route path="/*" element={<Error404 />}></Route>
       </Routes>
     </>
