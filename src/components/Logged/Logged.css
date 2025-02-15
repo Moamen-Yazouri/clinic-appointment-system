@@ -1,0 +1,28 @@
+.logged-wrapper {
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to right,#2f80ed, #646cff);
+    color: #fff;
+}
+.logged-wrapper h3 {
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+.logged-wrapper span {
+    font-size: 20px;
+}
+button.logout {
+    all: unset;
+    text-decoration: underline;
+    color: #25296c;
+    font-size: 25px;
+    cursor: pointer;
+    margin-left: 5px;
+    transition: transform 0.3s;
+}
+button.logout:hover {
+    transform: scale(1.1);
+}
