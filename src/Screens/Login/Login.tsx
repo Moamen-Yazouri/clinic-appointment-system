@@ -25,7 +25,7 @@ const Login = () => {
             navigate(role === "doctor" ? "/manage" : "/create");
               setTimeout(() => {
                 login(user);
-              }, 1000)
+              }, 0)
           }
           else {
             message.destroy();
