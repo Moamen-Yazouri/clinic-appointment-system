@@ -1,10 +1,10 @@
 import './Login.css'
 import { useContext } from 'react';
-import { Button, Checkbox, Form, Input, message } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import { AuthContext } from '../../Providers/AuthContext';
 import { ILoginData } from '../../types/types';
-import { useNavigate } from 'react-router-dom';
 import Logged from '../../components/Logged/Logged';
+import { useNavigate } from 'react-router-dom';
 interface FieldType {
   username?: string;
   password?: string;
@@ -12,8 +12,8 @@ interface FieldType {
 }
 const Login = () => {
   const users: ILoginData[] = JSON.parse(localStorage.getItem("login-data") || "[]");
-  const navigate = useNavigate();
   const { login, user} = useContext(AuthContext);
+  const navigate = useNavigate();
   const onFinish = (values: FieldType) => {
     const userName = values.username!;
     const password = values.password!;
@@ -21,20 +21,18 @@ const Login = () => {
             user.userName === userName ? user && user.password === password : null
           );
           if(user) {
-            login(user);
-            const role = user.role;
-            if (role.toString().toLowerCase() === "doctor") {
-              navigate("/manage");
-            } else {
-              navigate("/create");
-            }
+            const role = user.role.toString().toLowerCase();
+            navigate(role === "doctor" ? "/manage" : "/create");
+              setTimeout(() => {
+                login(user);
+              }, 0)
           }
           else {
+            message.destroy();
             message.error('Invalid username or password');
           }
   };
-  
-  {
+
     if(!user) {
       return (
         <div className='login-wrapper'>
@@ -67,10 +65,6 @@ const Login = () => {
             <Input.Password style={{ borderColor: '#646cff' }} />
           </Form.Item>
     
-          <Form.Item<FieldType> name="remember" valuePropName="checked">
-            <Checkbox style={{ color: '#646cff' }}>Remember me</Checkbox>
-          </Form.Item>
-    
           <Form.Item style={{display: "flex",justifyContent: "center", width: '100%'}}>
             <Button
             className='login'
@@ -85,12 +79,9 @@ const Login = () => {
       );
     }
     else {
-      return (
-        <Logged/>
-      )
-    }
+    return(
+      <Logged />
+    )
   }
-
-};
-
+}
 export default Login;
