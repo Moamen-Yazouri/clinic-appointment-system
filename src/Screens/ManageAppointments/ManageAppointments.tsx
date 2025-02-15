@@ -50,7 +50,7 @@ const ManageAppointments = (props: IProps) => {
   }, [nameFilter, selectedFilter, props.appointments]);
 
   return props.appointments.length > 0 ? (
-    <div>
+    <div className="manage-screen-container">
       <Filters
         selectedFilter={selectedFilter}
         setSelectedFilter={setSelectedFilter}

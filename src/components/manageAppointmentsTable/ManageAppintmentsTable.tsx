@@ -1,13 +1,9 @@
 import dayjs from "dayjs";
 import { IAppointment, Status } from "../../types/types";
+import "./manage-appointment-table.css";
 
-import Table from "@mui/material/Table";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import TableCell from "@mui/material/TableCell";
-import TableBody from "@mui/material/TableBody";
+import { Table, Input, Select } from "antd";
+import { ColumnsType } from "antd/es/table";
 
 interface IProps {
   filteredArray: IAppointment[];
@@ -16,14 +12,11 @@ interface IProps {
 }
 
 const ManageAppointmentsTable = (props: IProps) => {
-  const handleStatusChange = (
-    index: number,
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  const handleStatusChange = (index: number, value: string) => {
     const updatedArray = [...props.filteredArray];
-    if (e.target.value.toLowerCase() === "pending") {
+    if (value.toLowerCase() === "pending") {
       updatedArray[index].status = Status.PENDING;
-    } else if (e.target.value.toLowerCase() === "confirmed") {
+    } else if (value.toLowerCase() === "confirmed") {
       updatedArray[index].status = Status.CONFIRMED;
     } else {
       updatedArray[index].status = Status.COMPLETED;
@@ -44,63 +37,102 @@ const ManageAppointmentsTable = (props: IProps) => {
     props.setAppointments(updatedArray);
   };
 
+  const { Option } = Select;
+  const { TextArea } = Input;
+  const columns: ColumnsType<IAppointment> = [
+    {
+      title: "Appointment ID",
+      dataIndex: "appointmentId",
+      key: "appointmentId",
+      align: "center",
+    },
+    {
+      title: "Patient Name",
+      dataIndex: "name",
+      key: "name",
+      align: "center",
+    },
+    {
+      title: "Patient Age",
+      dataIndex: "age",
+      key: "age",
+      align: "center",
+    },
+    {
+      title: "Patient Contact",
+      dataIndex: "contact",
+      key: "contact",
+      align: "center",
+    },
+    {
+      title: "Patient gender",
+      dataIndex: "gender",
+      key: "gender",
+      align: "center",
+    },
+    {
+      title: "Appointment Status",
+      dataIndex: "status",
+      key: "status",
+      align: "center",
+      render: (status: string, record: IAppointment, index: number) => {
+        return (
+          <Select
+            value={status}
+            onChange={(value) => handleStatusChange(index, value)}
+          >
+            <Option value="Pending">Pending</Option>
+            <Option value="Confirmed">Confirmed</Option>
+            <Option value="Completed">Completed</Option>
+          </Select>
+        );
+      },
+    },
+    {
+      title: "Appointment Date & Time",
+      dataIndex: "dateTime",
+      key: "dateTime",
+      align: "center",
+      render: (dateTime: string) =>
+        dayjs(dateTime).format("MM/DD/YYYY, hh:mm A"),
+    },
+    {
+      title: "Symptoms",
+      dataIndex: "symptoms",
+      key: "symptoms",
+      align: "center",
+    },
+    {
+      title: "Notes",
+      dataIndex: "note",
+      key: "note",
+      align: "center",
+      render: (note: string, record: IAppointment, index: number) => (
+        <TextArea
+          value={note}
+          onChange={(e) => handleNoteChange(index, e)}
+          placeholder="Enter Note"
+          autoSize={{ minRows: 4, maxRows: 10 }}
+        />
+      ),
+    },
+  ];
+
   return (
-    <>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="a dense tables">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">Appointment ID</TableCell>
-              <TableCell align="center">Patient Name</TableCell>
-              <TableCell align="center">Patient Age</TableCell>
-              <TableCell align="center">Patient Contact</TableCell>
-              <TableCell align="center">Patient Gender</TableCell>
-              <TableCell align="center">Appointment Status</TableCell>
-              <TableCell align="center">Appointment Date & Time</TableCell>
-              <TableCell align="center">Symptoms</TableCell>
-              <TableCell align="center">Notes</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {props.filteredArray.map((appointment, index) => (
-              <TableRow
-                key={index}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell align="center">
-                  {appointment.appointmentId}
-                </TableCell>
-                <TableCell align="center">{appointment.name}</TableCell>
-                <TableCell align="center">{appointment.age}</TableCell>
-                <TableCell align="center">{appointment.contact}</TableCell>
-                <TableCell align="center">{appointment.gender}</TableCell>
-                <TableCell align="center">
-                  <select
-                    value={appointment.status}
-                    onChange={(e) => handleStatusChange(index, e)}
-                  >
-                    <option value={Status.PENDING}>Pending</option>
-                    <option value={Status.CONFIRMED}>Confirmed</option>
-                    <option value={Status.COMPLETED}>Completed</option>
-                  </select>
-                </TableCell>
-                <TableCell align="center">
-                  {dayjs(appointment.dateTime).format("MM/DD/YYYY, hh:mm A")}
-                </TableCell>
-                <TableCell align="center">{appointment.symptoms}</TableCell>
-                <TableCell align="center">
-                  <textarea
-                    value={appointment.note}
-                    onChange={(e) => handleNoteChange(index, e)}
-                    placeholder="Enter Note"
-                  />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </>
+    <Table
+      columns={columns}
+      dataSource={props.filteredArray.map((appointment) => ({
+        ...appointment,
+        key: appointment.appointmentId,
+      }))}
+      pagination={false}
+      rowKey="appointmentId"
+      rowClassName={(record) =>
+        record.status === "Completed" ? "completed-row" : ""
+      }
+      scroll={{ x: "max-content" }}
+      className="responsive-table"
+    />
   );
 };
 export default ManageAppointmentsTable;
