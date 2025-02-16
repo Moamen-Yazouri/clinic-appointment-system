@@ -12,7 +12,7 @@ interface FieldType {
 }
 const Login = () => {
   const users: ILoginData[] = JSON.parse(localStorage.getItem("login-data") || "[]");
-  const { login, user, isNaved, setIsNaved} = useContext(AuthContext);
+  const { login, user, isNaved} = useContext(AuthContext);
   const navigate = useNavigate();
   const onFinish = (values: FieldType) => {
     const userName = values.username!;
@@ -24,9 +24,6 @@ const Login = () => {
             const role = user.role.toString().toLowerCase();
             login(user);
             navigate(role === "doctor" ? "/manage" : "/create");
-            setTimeout(() => {
-              setIsNaved(true);
-            }, 1000)
           }
           else {
             message.destroy();
