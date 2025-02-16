@@ -19,7 +19,7 @@ const CreateAppointmentForm: React.FC<IAppointmentFormProps> = ({
   handleSubmit,
 }) => {
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="CreateForm">
       <input
         pattern="[A-Za-z ]{3,30}"
         type="text"
@@ -73,7 +73,7 @@ const CreateAppointmentForm: React.FC<IAppointmentFormProps> = ({
         required
       ></textarea>
 
-      <button type="submit">Submit</button>
+      <button className="formButton" type="submit">Submit</button>
     </form>
   );
 };
