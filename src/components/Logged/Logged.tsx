@@ -15,6 +15,4 @@ const Logged = () => {
     </div>
     )
 }
-
 export default Logged;
-// To turn off GitHub Copilot, you can disable it in your editor settings or uninstall the extension.

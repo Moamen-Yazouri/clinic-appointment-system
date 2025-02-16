@@ -12,31 +12,32 @@ interface FieldType {
 }
 const Login = () => {
   const users: ILoginData[] = JSON.parse(localStorage.getItem("login-data") || "[]");
-  const { login, user} = useContext(AuthContext);
+  const { login, user, isNaved, setIsNaved} = useContext(AuthContext);
   const navigate = useNavigate();
   const onFinish = (values: FieldType) => {
     const userName = values.username!;
     const password = values.password!;
     const user = users.find((user) =>
-            user.userName === userName ? user && user.password === password : null
+            user.userName === userName ? user.password === password : null
           );
           if(user) {
             const role = user.role.toString().toLowerCase();
+            login(user);
             navigate(role === "doctor" ? "/manage" : "/create");
-              setTimeout(() => {
-                login(user);
-              }, 1000)
+            setTimeout(() => {
+              setIsNaved(true);
+            }, 1000)
           }
           else {
             message.destroy();
             message.error('Invalid username or password');
           }
   };
-
-    if(!user) {
+    if(!user || !isNaved) {
       return (
         <div className='login-wrapper'>
         <Form
+          className='login-form'
           name="basic"
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 16 }}
@@ -79,9 +80,11 @@ const Login = () => {
       );
     }
     else {
-    return(
-      <Logged />
-    )
+      if(isNaved) {
+          return(
+            <Logged />
+          )
+      }
   }
 }
 export default Login;
