@@ -1,4 +1,4 @@
-import DateTimePicker from "../../components/DateTimePicker/DateTimePicker";
+import DateTimePicker from "../dateTimePicker/DateTimePicker";
 import { IAppointment } from "../../types/types";
 
 interface IAppointmentFormProps {
@@ -73,7 +73,9 @@ const CreateAppointmentForm: React.FC<IAppointmentFormProps> = ({
         required
       ></textarea>
 
-      <button className="formButton" type="submit">Submit</button>
+      <button className="formButton" type="submit">
+        Submit
+      </button>
     </form>
   );
 };

@@ -2,7 +2,7 @@ import "./CreateAppointment.css";
 import { useState } from "react";
 import { IAppointment, Status } from "../../types/types";
 import ShowAppointment from "../../components/showAppointment/ShowAppointment";
-import CreateAppointmentForm from "../../components/CreateAppointmentForm/CreateAppointmentForm";
+import CreateAppointmentForm from "../../components/createAppointmentForm/CreateAppointmentForm";
 import dayjs from "dayjs";
 
 const CreateAppointment = () => {
@@ -38,11 +38,11 @@ const CreateAppointment = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     const storedAppointments: IAppointment[] = JSON.parse(
       localStorage.getItem("appointment-details") || "[]"
     );
-  
+
     if (
       patientData.name &&
       patientData.contact &&
@@ -53,39 +53,44 @@ const CreateAppointment = () => {
     ) {
       const isDateTaken = storedAppointments.some(
         (appointment) =>
-          dayjs(appointment.dateTime).format("YYYY-MM-DD HH:mm") === 
+          dayjs(appointment.dateTime).format("YYYY-MM-DD HH:mm") ===
           dayjs(patientData.dateTime).format("YYYY-MM-DD HH:mm")
       );
-  
+
       if (isDateTaken) {
         alert("This appointment is booked in advance.");
         return;
       }
-  
+
       const updatedAppointments = [
-        ...storedAppointments, 
-        { ...patientData, dateTime: dayjs(patientData.dateTime).toISOString() }       
+        ...storedAppointments,
+        { ...patientData, dateTime: dayjs(patientData.dateTime).toISOString() },
       ];
-      
-      localStorage.setItem("appointment-details", JSON.stringify(updatedAppointments));
-      
+
+      localStorage.setItem(
+        "appointment-details",
+        JSON.stringify(updatedAppointments)
+      );
+
       setSubmitted(true);
     }
   };
-  
+
   return (
     <div className="container">
       {submitted ? (
-        <div><ShowAppointment patientData={patientData}/></div>
+        <div>
+          <ShowAppointment patientData={patientData} />
+        </div>
       ) : (
         <>
           <h2>Create Appointment</h2>
           <CreateAppointmentForm
-          patientData={patientData}
-          handleChange={handleChange}
-          handleDateChange={handleDateChange}
-          handleSubmit={handleSubmit}
-        />
+            patientData={patientData}
+            handleChange={handleChange}
+            handleDateChange={handleDateChange}
+            handleSubmit={handleSubmit}
+          />
         </>
       )}
     </div>
