@@ -1,11 +1,20 @@
 .login-wrapper {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: 100%;
   width: 100%;
   background: linear-gradient(to right,#2f80ed, #646cff);
 }
 button.login:hover {
   transform: scale(1.1);
+}
+@media(max-width: 576px) {
+  .login-wrapper h2 {
+    font-size: 18px;
+  }
+  .login-wrapper .login-form {
+    width: 335px !important;
+  }
 }

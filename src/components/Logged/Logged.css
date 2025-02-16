@@ -26,3 +26,22 @@ button.logout {
 button.logout:hover {
     transform: scale(1.1);
 }
+/* For Responsive issues.. */
+@media(max-width: 767px) {
+    .logged-wrapper h3 {
+        font-size: 25px;
+        margin-bottom: 15px;
+    }
+    .logged-wrapper span {
+        font-size: 15px;
+    }
+    button.logout {
+        all: unset;
+        text-decoration: underline;
+        color: #25296c;
+        font-size: 20px;
+        cursor: pointer;
+        margin-left: 5px;
+        transition: transform 0.3s;
+    }
+}
