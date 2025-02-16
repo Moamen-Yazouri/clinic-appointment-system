@@ -44,7 +44,7 @@ const Statistics = (props: IProps) => {
 
   return (
     <Row  className="cards-wrapper">
-      <Col xs={24} sm={12} md={8} lg={8}>
+      <Col xs={24} sm={12} md={8} lg={6}>
         <Card className="first-card">
           <Statistic
             title="Today Appointments"
@@ -52,7 +52,7 @@ const Statistics = (props: IProps) => {
           />
         </Card>
       </Col>
-      <Col xs={24} sm={12} md={8} lg={8}>
+      <Col xs={24} sm={12} md={8} lg={6}>
         <Card className="second-card">
           <Statistic
             title="Pending Appointments"
@@ -60,7 +60,7 @@ const Statistics = (props: IProps) => {
           />
         </Card>
       </Col>
-      <Col xs={24} sm={12} md={8} lg={8}>
+      <Col xs={24} sm={12} md={8} lg={6}>
         <Card className="third-card">
           <Statistic
             title="Confirmed Appointments"
