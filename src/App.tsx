@@ -5,7 +5,7 @@ import Login from "./Screens/Login/Login";
 import ManageAppointments from "./Screens/ManageAppointments/ManageAppointments";
 import Dashboard from "./Screens/Dashboard/Dashboard";
 import { IAppointment } from "./types/types";
-import Header from "./components/header/Header";
+import AppHeader from "./components/appHeader/AppHeader";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./Providers/AuthContext";
 import Error404 from "./Screens/Error404/Error404";
@@ -34,7 +34,7 @@ function App() {
 
   return (
     <>
-      {user && <Header />}
+      {user && <AppHeader />}
       <Routes>
         <Route path="/" element={<Login />} />
         <Route element={<ProtectedRoute allowedRoles="PATIENT" />}>
