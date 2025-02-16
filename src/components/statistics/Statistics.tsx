@@ -43,7 +43,7 @@ const Statistics = (props: IProps) => {
   }, [props.appointments]);
 
   return (
-    <Row  className="cards-wrapper">
+    <Row  gutter={[16, 16]} justify="center" className="cards-wrapper">
       <Col xs={24} sm={12} md={8} lg={8}>
         <Card className="first-card">
           <Statistic

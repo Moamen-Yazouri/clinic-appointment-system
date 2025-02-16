@@ -24,19 +24,21 @@ export const AuthProvider = ({ children }: IProps) => {
     const storedUser = localStorage.getItem("user-data");
     return storedUser ? JSON.parse(storedUser) : null;
   });
-  const [isNaved, setIsNaved] = useState(false)
+  const [isNaved, setIsNaved] = useState(Boolean(localStorage.getItem("isNaved")) || false)
 
   const login = (data: ILoginData) => {
     setUser(data);
+    localStorage.setItem("user-data", JSON.stringify(data));
     setTimeout(() => {
       setIsNaved(true);
+      localStorage.setItem("isNaved", "true");
     }, 500)
-    localStorage.setItem("user-data", JSON.stringify(data));
   };
   const logout = () => {
     setUser(null);
     setIsNaved(false);
     localStorage.removeItem("user-data");
+    localStorage.removeItem("isNaved")
   };
   const value = { user, login, logout, isNaved, setIsNaved };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
