@@ -28,6 +28,9 @@ export const AuthProvider = ({ children }: IProps) => {
 
   const login = (data: ILoginData) => {
     setUser(data);
+    setTimeout(() => {
+      setIsNaved(true);
+    }, 500)
     localStorage.setItem("user-data", JSON.stringify(data));
   };
   const logout = () => {
