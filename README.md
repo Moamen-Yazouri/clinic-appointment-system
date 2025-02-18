@@ -1,50 +1,56 @@
-# React + TypeScript + Vite
+# Clinic Appointment System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
+The Clinic Appointment System is a role-based application built with React TypeScript, designed to streamline patient appointment bookings and doctor management. Patients can schedule and view their own appointments, while doctors have access to a dashboard with appointment management tools and statistics.
 
-Currently, two official plugins are available:
+## Features
+### 1. Login System (Role-Based)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+#### Patients:
+- Book and view their own appointments.
 
-## Expanding the ESLint configuration
+#### Doctors:
+- Access a dashboard with appointment management capabilities.
+- Basic form validation to ensure correct input.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+---
 
-- Configure the top-level `parserOptions` property like this:
+### 2. Appointment Booking (Patient)
+A secure booking form with the following fields:
+- **Patient Name**, **Contact**, **Age**, **Gender**.
+- **Date/Time Picker** (Limited to clinic hours: **9 AM – 5 PM**).
+- **Symptoms description** (Text area).
+- **Confirmation message** displayed upon successful booking.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+---
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### 3. Manage Appointments (Doctor)
+Doctors can:
+- View all patient appointments, sorted by date.
+- Filter by **status** (_Pending / Confirmed / Completed_).
+- Search for appointments by **patient name**.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+#### Actions:
+- Change **appointment status**.
+- Add **notes** for patients (e.g., _"Bring lab reports"_).
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+---
+
+### 4. Doctor Dashboard
+Provides an **overview** of clinic activities with:
+- **Summary statistics**:
+  - Total appointments today.
+  - Pending vs. confirmed appointments.
+- **Visual Charts** (Bar/Pie) displaying daily appointment trends.
+
+---
+
+## Technologies Used
+
+The **Clinic Appointment System** is built using the following technologies:
+
+- **React TypeScript** – For frontend development.  
+- **React Router** – For navigation between pages.  
+- **State Management** – Using `useState` and `useContext` for managing application state.  
+- **Ant Design** – For styling and UI components.  
+- **Chart.js** – For data visualization and displaying appointment trends.  
